@@ -1,18 +1,14 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import { HelloWorld as Toto } from "./src/components/HelloWorld";
-import CustomCard from "./src/components/CustomCard";
+import PlanetList from "./src/components/PlanetList";
 
 export default function App() {
   return (
     <>
       <View style={styles.container}>
-        <CustomCard title="titre" footer="footer">
-          <Text>DEEEEMOOOOO</Text>
-        </CustomCard>
+        <PlanetList></PlanetList>
         <StatusBar style="auto" />
       </View>
-      <Text>demo</Text>
     </>
   );
 }

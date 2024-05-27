@@ -6,7 +6,7 @@ type CustomCardProps = {
   children: React.ReactNode;
 };
 
-const CustomCard: React.FC<CustomCardProps> = ({ footer, title, children }) => {
+const CustomCard = ({ footer, title, children }: CustomCardProps) => {
   return (
     <View>
       <Text>{title}</Text>
