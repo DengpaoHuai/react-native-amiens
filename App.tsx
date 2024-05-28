@@ -1,15 +1,13 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import PlanetList from "./src/components/PlanetList";
-import PeopleList from "./src/components/PeopleList";
+import { StyleSheet } from "react-native";
+import StackRouter from "./src/router/StackRouter";
+import { NavigationContainer } from "@react-navigation/native";
 
 export default function App() {
   return (
     <>
-      <View style={styles.container}>
-        <PeopleList></PeopleList>
-        <StatusBar style="auto" />
-      </View>
+      <NavigationContainer>
+        <StackRouter></StackRouter>
+      </NavigationContainer>
     </>
   );
 }
