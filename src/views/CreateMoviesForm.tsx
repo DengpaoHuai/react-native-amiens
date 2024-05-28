@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CustomTextInput from "../components/ui/form/CustomTextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +19,7 @@ const CreateMoviesForm = () => {
 
   return (
     <View>
-      <CustomTextInput
+      <CustomTextInput<Form>
         control={control}
         name="title"
         placeholder="Title"

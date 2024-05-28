@@ -1,17 +1,17 @@
-import { Control, Controller, FieldValues } from "react-hook-form";
+import { Control, Controller, FieldValues, Path } from "react-hook-form";
 import { StyleSheet, TextInput } from "react-native";
 
-type CustomTextInputProps = {
-  name: string;
+type CustomTextInputProps<T extends FieldValues> = {
+  name: Path<T>;
   placeholder: string;
-  control: Control<any>;
+  control: Control<T>;
 };
 
-const CustomTextInput: React.FC<CustomTextInputProps> = ({
+function CustomTextInput<T extends FieldValues>({
   control,
   name,
   placeholder,
-}) => {
+}: CustomTextInputProps<T>) {
   return (
     <Controller
       name={name}
@@ -27,7 +27,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
       )}
     ></Controller>
   );
-};
+}
 
 const styles = StyleSheet.create({
   textinput: {
