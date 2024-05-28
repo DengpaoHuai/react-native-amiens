@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from "react";
-import { Button, FlatList, Text, View } from "react-native";
+import { ActivityIndicator, Button, FlatList, Text, View } from "react-native";
 
 type Planet = {
   name: string;
@@ -27,40 +27,51 @@ type PlanetResponse = {
 
 const PlanetList = () => {
   const [planets, setPlanets] = useState<Planet[]>([]);
+  const [page, setPage] = useState(1);
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    fetch("https://swapi.dev/api/planets?page=1")
+    setLoading(true);
+
+    fetch("https://swapi.dev/api/planets?page=" + page)
       .then((response) => response.json())
-      .then((result: PlanetResponse) => setPlanets(result.results));
-  }, []);
-
-  /* return (
-    <FlatList
-      data={planets}
-      renderItem={({ item: planet }) => {
-        return (
-          <View>
-            <Text>Name : {planet.name}</Text>
-          </View>
-        );
-      }}
-    />
-  );*/
-
-  const next = () => {};
-
-  const previous = (url: string) => {};
+      .then((result: PlanetResponse) => {
+        setPlanets(result.results);
+        setTotal(result.count);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [page]);
 
   return (
     <>
-      {planets.map((planet) => {
-        return (
-          <Fragment key={planet.url}>
-            <Text>Name : {planet.name}</Text>
-          </Fragment>
-        );
-      })}
-      <Button title="previous" onPress={() => previous("url")}></Button>
-      <Button title="next" onPress={next}></Button>
+      {loading ? (
+        <ActivityIndicator></ActivityIndicator>
+      ) : (
+        planets.map((planet) => {
+          return (
+            <Fragment key={planet.url}>
+              <Text>Name : {planet.name}</Text>
+            </Fragment>
+          );
+        })
+      )}
+      <Button
+        title="previous"
+        disabled={page === 1}
+        onPress={() => {
+          setPage(page - 1);
+        }}
+      ></Button>
+      <Button
+        title="next"
+        disabled={page * 10 >= total}
+        onPress={() => {
+          setPage(page + 1);
+        }}
+      ></Button>
     </>
   );
 };
