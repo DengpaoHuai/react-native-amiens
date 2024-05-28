@@ -24,16 +24,20 @@ const CreateMoviesForm = () => {
         name="title"
         placeholder="Title"
       ></CustomTextInput>
+      {errors.title && <Text>{errors.title.message}</Text>}
       <CustomTextInput
         control={control}
         name="description"
         placeholder="Description"
       ></CustomTextInput>
+      {errors.description && <Text>{errors.description.message}</Text>}
       <CustomTextInput
         control={control}
         name="rating"
         placeholder="Rating"
+        keyboardType="numeric"
       ></CustomTextInput>
+      {errors.rating && <Text>{errors.rating.message}</Text>}
 
       <TouchableOpacity onPress={handleSubmit(onSubmit)}>
         <View style={styles.button}>

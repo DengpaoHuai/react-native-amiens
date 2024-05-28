@@ -1,29 +1,39 @@
 import { Control, Controller, FieldValues, Path } from "react-hook-form";
-import { StyleSheet, TextInput } from "react-native";
+import { StyleSheet, Text, TextInput } from "react-native";
 
 type CustomTextInputProps<T extends FieldValues> = {
   name: Path<T>;
   placeholder: string;
   control: Control<T>;
+  keyboardType?: "default" | "numeric" | "email-address" | "phone-pad";
 };
 
 function CustomTextInput<T extends FieldValues>({
   control,
   name,
   placeholder,
+  keyboardType = "default",
 }: CustomTextInputProps<T>) {
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, onBlur, value } }) => (
-        <TextInput
-          placeholder={placeholder}
-          onBlur={onBlur}
-          onChangeText={onChange}
-          value={value}
-          style={styles.textinput}
-        />
+      render={({
+        field: { onChange, onBlur, value },
+        fieldState: { error },
+        formState: { errors },
+      }) => (
+        <>
+          <TextInput
+            placeholder={placeholder}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            style={styles.textinput}
+            keyboardType={keyboardType}
+          />
+          {error && <Text>{error.message}</Text>}
+        </>
       )}
     ></Controller>
   );
