@@ -1,3 +1,4 @@
+import { useNavigation } from "@react-navigation/native";
 import { Fragment, useEffect, useState } from "react";
 import { ActivityIndicator, Button, FlatList, Text, View } from "react-native";
 
@@ -33,7 +34,8 @@ const PlanetList = () => {
     results: [],
   });
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigation();
+  console.log(navigate);
   const getPlanets = async (url: string) => {
     setLoading(true);
     const response = await fetch(url);
@@ -71,6 +73,12 @@ const PlanetList = () => {
         disabled={!planetsResponse.next}
         onPress={() => {
           planetsResponse.next && getPlanets(planetsResponse.next);
+        }}
+      ></Button>
+      <Button
+        title="Create Movie"
+        onPress={() => {
+          navigate.navigate("CreateMoviesForm");
         }}
       ></Button>
     </>
