@@ -1,12 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import PlanetList from "./src/components/PlanetList";
+import PeopleList from "./src/components/PeopleList";
 
 export default function App() {
   return (
     <>
       <View style={styles.container}>
-        <PlanetList></PlanetList>
+        <PeopleList></PeopleList>
         <StatusBar style="auto" />
       </View>
     </>

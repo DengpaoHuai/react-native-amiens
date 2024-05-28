@@ -1,29 +1,35 @@
 import { useEffect, useState } from "react";
+import { PeopleResponse } from "../components/PeopleList";
 
-const useFetch = <T>(url: string, page: number) => {
-  const [data, setData] = useState<{
-    [page: number]: T;
-  } | null>({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+type Data<T> = {
+  [key: string]: T;
+};
+
+type Data1<T> = Record<string, T>;
+
+const useFetch = <T>(url: string) => {
+  const [data, setData] = useState<Data<T> | null>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    fetch(`${url}?page=${page}`)
-      .then((response) => response.json())
-      .then((result: T) => {
-        setData((prevData) => ({
-          ...prevData,
-          [page]: result,
-        }));
-        setLoading(false);
+    if (data && data[url]) return;
+    setLoading(true);
+    fetch(url)
+      .then((response) => {
+        return response.json();
       })
-      .catch((error) => {
-        setError(error.message);
+      .then((result: T) => {
+        setData({
+          [url]: result,
+          ...data,
+        });
+      })
+      .finally(() => {
         setLoading(false);
       });
-  }, [url, page]);
+  }, [url]);
 
-  return { data: data[page], loading, error };
+  return { data: data && data[url] ? data[url] : null, loading };
 };
 
 export default useFetch;
