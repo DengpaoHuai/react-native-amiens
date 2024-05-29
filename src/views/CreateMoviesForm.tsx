@@ -3,6 +3,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import CustomTextInput from "../components/ui/form/CustomTextInput";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormSchema } from "../schemas/movie.schema";
+import { useAppDispatch } from "../store/store";
+import { createMovie } from "../store/asyncActions/movies.thunk";
+import { useContext } from "react";
+import { MovieContext } from "../contexts/MovieContextProvider";
 
 const CreateMoviesForm = () => {
   const {
@@ -12,23 +16,10 @@ const CreateMoviesForm = () => {
   } = useForm<Form>({
     resolver: zodResolver(FormSchema),
   });
-
+  const { createMovie } = useContext(MovieContext);
   const onSubmit = (data: Form) => {
     console.log(data);
-
-    fetch("https://crudcrud.com/api/45603a75f563475b9cb76fc631f7aacb/movies", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    createMovie(data);
   };
 
   return (
