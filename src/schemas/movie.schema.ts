@@ -7,3 +7,9 @@ export const FormSchema = z.object({
 });
 
 export type Form = z.infer<typeof FormSchema>;
+
+export type Movie = {
+  title: string;
+  description: string;
+  rating: string;
+};

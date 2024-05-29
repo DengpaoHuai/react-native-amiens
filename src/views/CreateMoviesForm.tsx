@@ -15,6 +15,20 @@ const CreateMoviesForm = () => {
 
   const onSubmit = (data: Form) => {
     console.log(data);
+
+    fetch("https://crudcrud.com/api/45603a75f563475b9cb76fc631f7aacb/movies", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   return (
