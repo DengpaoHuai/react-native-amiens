@@ -8,63 +8,29 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-
+import useImagePicker from "../hooks/useImagePicker";
 export default function CameraViewScreen() {
-  const [facing, setFacing] = useState("back");
-  const [permission, requestPermission] = useCameraPermissions();
-  const cameraRef = useRef(null);
+  const { openDialog, selectPicture } = useImagePicker();
   const [image, setImage] = useState(null);
-  if (!permission) {
-    // Camera permissions are still loading.
-    return <View />;
-  }
-
-  if (!permission.granted) {
-    // Camera permissions are not granted yet.
-    return (
-      <View style={styles.container}>
-        <Text style={{ textAlign: "center" }}>
-          We need your permission to show the camera
-        </Text>
-        <Button onPress={requestPermission} title="grant permission" />
-      </View>
-    );
-  }
-
-  function toggleCameraFacing() {
-    setFacing((current) => (current === "back" ? "front" : "back"));
-  }
-
-  if (image) {
-    return (
-      <View style={styles.container}>
-        <ImageBackground
-          style={styles.camera}
-          source={{ uri: image }}
-        ></ImageBackground>
-      </View>
-    );
-  }
 
   return (
     <View style={styles.container}>
-      <CameraView style={styles.camera} facing={facing} ref={cameraRef}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <Text style={styles.text}>Flip Camera</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={async () => {
-              const result = await cameraRef.current?.takePictureAsync();
-              console.log(result);
+      <Button
+        title="prendre photo"
+        onPress={() => {
+          openDialog(
+            (result) => {
+              console.log(result.uri);
               setImage(result.uri);
-            }}
-          >
-            <Text style={styles.text}>Take Picture</Text>
-          </TouchableOpacity>
-        </View>
-      </CameraView>
+            },
+            { allowsEditing: true }
+          );
+        }}
+      ></Button>
+      <ImageBackground
+        style={styles.camera}
+        source={{ uri: image }}
+      ></ImageBackground>
     </View>
   );
 }
