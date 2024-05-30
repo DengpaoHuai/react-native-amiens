@@ -5,6 +5,7 @@ import PlanetList from "../components/PlanetList";
 import PeopleList from "../components/PeopleList";
 import CreateMoviesForm from "../views/CreateMoviesForm";
 import MoviesList from "../views/MoviesList";
+import StarshipsList from "../views/StarshipsList";
 const Stack = createStackNavigator();
 
 const StackRouter = () => {
@@ -15,6 +16,7 @@ const StackRouter = () => {
       <Stack.Screen name="People" component={PeopleList} />
       <Stack.Screen name="CreateMoviesForm" component={CreateMoviesForm} />
       <Stack.Screen name="MoviesList" component={MoviesList} />
+      <Stack.Screen name="StarshipsList" component={StarshipsList} />
     </Stack.Navigator>
   );
 };

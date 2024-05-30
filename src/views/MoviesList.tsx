@@ -1,33 +1,49 @@
-import { useContext, useEffect, useState } from "react";
-import { ActivityIndicator, Button, Text, View } from "react-native";
+4;
+import {
+  ActivityIndicator,
+  Button,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { useMoviesStore } from "../stores/useMovies";
-const MovieList = () => {
-  const { movies, setAllMovies } = useMoviesStore();
-  const navigation = useNavigation();
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getMovies } from "../services/movies.service";
+import { Movie } from "../schemas/movie.schema";
+import useMovies from "../stores/useMovies";
 
-  useEffect(() => {
-    setAllMovies();
-  }, []);
+const MovieList = () => {
+  const navigation = useNavigation();
+  const { movies } = useMovies();
 
   return (
-    <View>
+    <ScrollView
+      style={{
+        flex: 1,
+      }}
+    >
       <Button
         title="Go to Create Movie"
         onPress={() => navigation.navigate("CreateMoviesForm")}
       ></Button>
-      <Text>nombre : {movies.length}</Text>
-      {movies.map((movie) => {
+      <Text>nombre : {movies?.length}</Text>
+      {movies?.map((movie) => {
         return (
           <View>
             <Text>{movie.title}</Text>
             <Text>{movie.description}</Text>
             <Text>{movie.rating}</Text>
             <Button title="delete" onPress={() => {}}></Button>
+            <Button
+              title="voir"
+              onPress={() => {
+                navigation.navigate("CreateMoviesForm", { movie });
+              }}
+            ></Button>
           </View>
         );
       })}
-    </View>
+    </ScrollView>
   );
 };
 

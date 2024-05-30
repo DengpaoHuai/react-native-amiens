@@ -8,20 +8,32 @@ import { createMovie } from "../store/asyncActions/movies.thunk";
 import { useContext } from "react";
 import { MovieContext } from "../contexts/MovieContextProvider";
 import { useMoviesStore } from "../stores/useMovies";
+import { useRoute } from "@react-navigation/native";
 
 const CreateMoviesForm = () => {
+  const route = useRoute();
+  console.log(route.params.movie);
   const {
     control,
     handleSubmit,
     formState: { errors },
   } = useForm<Form>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      title: route.params?.movie?.title,
+      description: route.params?.movie?.description,
+      rating: route.params?.movie?.rating,
+    },
   });
-  const { createMovie } = useMoviesStore();
+  const { createMovie, updateMovie } = useMoviesStore();
 
   const onSubmit = (data: Form) => {
     console.log(data);
-    createMovie(data);
+    if (route.params?.movie._id) {
+      updateMovie({ _id: route.params.movie._id, ...data });
+    } else {
+      createMovie(data);
+    }
   };
 
   return (
