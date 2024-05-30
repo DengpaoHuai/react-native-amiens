@@ -1,14 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { ActivityIndicator, Button, Text, View } from "react-native";
+import { MovieContext } from "../contexts/MovieContextProvider";
 import { useNavigation } from "@react-navigation/native";
-import { useMoviesStore } from "../stores/useMovies";
-const MovieList = () => {
-  const { movies, setAllMovies } = useMoviesStore();
-  const navigation = useNavigation();
 
-  useEffect(() => {
-    setAllMovies();
-  }, []);
+const MovieList = () => {
+  const { movies } = useContext(MovieContext);
+  const navigation = useNavigation();
 
   return (
     <View>

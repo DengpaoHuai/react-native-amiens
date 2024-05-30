@@ -7,6 +7,7 @@ import { useAppDispatch } from "../store/store";
 import { createMovie } from "../store/asyncActions/movies.thunk";
 import { useContext } from "react";
 import { MovieContext } from "../contexts/MovieContextProvider";
+import { useMoviesStore } from "../stores/useMovies";
 
 const CreateMoviesForm = () => {
   const {
@@ -16,7 +17,8 @@ const CreateMoviesForm = () => {
   } = useForm<Form>({
     resolver: zodResolver(FormSchema),
   });
-  const { createMovie } = useContext(MovieContext);
+  const { createMovie } = useMoviesStore();
+
   const onSubmit = (data: Form) => {
     console.log(data);
     createMovie(data);
